@@ -5,35 +5,26 @@ on:
     branches:
       - main
     paths:
-      - '*/*.jpg'
-      - '*/*.jpeg'
-      - '*/*.png'
-      - '*/*.webp'
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.png'
+      - '**/*.webp'
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # 允许推送到仓库
+      contents: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
-
-      - name: Install dependencies
-        run: npm install sharp
-
-      - name: Run thumbnail generation
-        run: node .github/scripts/generate-thumbnails.js
-
-      - name: Commit and push thumbnails
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - run: npm install sharp
+      - run: node .github/scripts/generate-thumbnails.js
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Auto generate thumbnails"
-          file_pattern: 'HY-NEW380/*-thumb.*'
+          file_pattern: '**/*-thumb.*'
           branch: main
-          skip_fetch: true   # 避免在某些环境下因 fetch 失败而卡住
+          skip_fetch: true
