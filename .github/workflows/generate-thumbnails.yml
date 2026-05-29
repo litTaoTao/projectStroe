@@ -9,6 +9,7 @@ on:
       - '**/*.jpeg'
       - '**/*.png'
       - '**/*.webp'
+  workflow_dispatch:   # 允许手动触发
 
 jobs:
   generate:
